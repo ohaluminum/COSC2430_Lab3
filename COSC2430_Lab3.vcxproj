@@ -156,6 +156,7 @@
     <Text Include="ans1.txt" />
     <Text Include="ans2.txt" />
     <Text Include="ans3.txt" />
+    <Text Include="input.txt" />
     <Text Include="input1.txt" />
     <Text Include="input2.txt" />
     <Text Include="input3.txt" />
