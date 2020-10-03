@@ -35,19 +35,62 @@ void bubbleSort(int* arr, int n)
     }
 }
 
+// --------------------------------------------------- INSERTION SORT ----------------------------------
+void insertionSort(int* arr, int n)
+{
+    int i = 0;
+    int j = 0;
+    int key = 0;
+
+    for (int i = 1; i < n; i++)
+    {
+        key = arr[i];
+        j = i - 1;
+
+        //Move elements of arr[0, 1, 2, ... , i - 1], which are greater than key, to one position ahead of their current position.
+        while (j >= 0 && arr[j] > key)
+        {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
 // --------------------------------------------------- SELECTION SORT ----------------------------------
 void selectionSort(int* arr, int n)
 {
+    int i = 0;
+    int j = 0;
+    int min = 0;
+    int temp = 0;
 
+    for (i = 0; i < n - 1; i++)
+    {
+        min = i;
+
+        //Unsorted array
+        for (j = i + 1; j < n; j++)
+        {
+            if (arr[j] < arr[min])
+            {
+                //Update min
+                min = j;
+            }
+        }
+
+        //Swap 
+        temp = arr[min];
+        arr[min] = arr[i];
+        arr[i] = temp;
+    }
 }
 
+// --------------------------------------------------- SELECTION SORT ----------------------------------
+void mergeSort()
+{
 
-//void bubbleSort(int a[], int n) {
-//    for (int i = n - 1; i >= 1; i--) {
-//        for (int j = 1; j <= i; j++) {
-//            if (a[j - 1] > a[j])
-//                swap(a[j], a[j - 1]);
-
+}
 
 //----------------------------------------------------- MAIN FUNCTION -----------------------------------------------
 
@@ -107,16 +150,74 @@ int main(int argc, char* argv[])
         }
 
         //Start timer
-        clock_t startTime = clock();
+        clock_t t = clock();
         
         //Bubble sort 
         bubbleSort(bubbleArr, size);
 
         //Stop Timer
-        clock_t endTime = clock();
-        clock_t bubbleTime = (endTime - startTime) / CLOCKS_PER_SEC;
+        t = clock() - t;
+        double bubbleTime = ((double)t) / CLOCKS_PER_SEC;
         
-        cout << "Elapsed time: " << bubbleTime * 1000 << " ms" << endl;
+        cout << "Bubble Sort: " << bubbleTime * 1000 << " ms" << endl;
+
+        // ---------------------------------------- INSERTION SORT ----------------------------------------
+
+        //Create a array for insertion sort
+        int* insertionArr = new int[size];
+
+        for (int i = 0; i < size; i++)
+        {
+            insertionArr[i] = numArr[i];
+        }
+
+        //Start timer
+        t = clock();
+
+        //Bubble sort 
+        insertionSort(insertionArr, size);
+
+        //Stop Timer
+        t = clock() - t;
+        double insertionTime = ((double)t) / CLOCKS_PER_SEC;
+
+        cout << "Insertion Sort: " << insertionTime * 1000 << " ms" << endl;
+
+        // ---------------------------------------- SELECTION SORT ----------------------------------------
+
+        //Create a array for insertion sort
+        int* selectionArr = new int[size];
+
+        for (int i = 0; i < size; i++)
+        {
+            selectionArr[i] = numArr[i];
+        }
+
+        //Start timer
+        t = clock();
+
+        //Bubble sort 
+        selectionSort(selectionArr, size);
+
+        //Stop Timer
+        t = clock() - t;
+        double selectionTime = (double(t)) / CLOCKS_PER_SEC;
+
+        cout << "Selection Sort: " << selectionTime * 1000 << " ms" << endl;
+
+        // ---------------------------------------- MERGE SORT ----------------------------------------
+
+       
+
+
+        /*for (int i = 0; i < size; i++)
+        {
+            cout << selectionArr[i] << " ";
+        }*/
+
+
+
+        
 
 
     }
