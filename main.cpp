@@ -277,8 +277,6 @@ int main(int argc, char* argv[])
 
         double bubbleTime = double(t) / double(CLOCKS_PER_SEC);
 
-        cout << "Bubble Sort: " << bubbleTime * 1000 << " ms" << endl;
-
         // ---------------------------------------- INSERTION SORT ----------------------------------------
 
         //Create a array for insertion sort
@@ -297,8 +295,6 @@ int main(int argc, char* argv[])
         //Stop Timer
         t = clock() - t;
         double insertionTime = ((double)t) / CLOCKS_PER_SEC;
-
-        cout << "Insertion Sort: " << insertionTime * 1000 << " ms" << endl;
 
         // ---------------------------------------- SELECTION SORT ----------------------------------------
 
@@ -319,8 +315,6 @@ int main(int argc, char* argv[])
         t = clock() - t;
         double selectionTime = (double(t)) / CLOCKS_PER_SEC;
 
-        cout << "Selection Sort: " << selectionTime * 1000 << " ms" << endl;
-
         // ---------------------------------------- MERGE SORT ----------------------------------------
 
         //Create a array for insertion sort
@@ -340,8 +334,6 @@ int main(int argc, char* argv[])
         t = clock() - t;
         double mergeTime = (double(t)) / CLOCKS_PER_SEC;
 
-        cout << "Merge Sort: " << mergeTime * 1000 << " ms" << endl;
-
         // ---------------------------------------- QUICK SORT ----------------------------------------
 
         //Create a array for insertion sort
@@ -360,8 +352,6 @@ int main(int argc, char* argv[])
         //Stop Timer
         t = clock() - t;
         double quickTime = (double(t)) / CLOCKS_PER_SEC;
-
-        cout << "Quick Sort: " << quickTime * 1000 << " ms" << endl;
 
         // --------------------------------------- STRUCT & ARRAY ------------------------------------------------
         
