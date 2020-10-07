@@ -5,6 +5,24 @@
 
 using namespace std;
 
+struct sortingTime
+{
+    string type;
+    double time;
+
+    sortingTime()
+    {
+        type = "";
+        time = 0.0;
+    }
+
+    sortingTime(string type, double time)
+    {
+        this->type = type;
+        this->time = time;
+    }
+};
+
 // ----------------------------------------------------- BUBBLE SORT -----------------------------------------------
 void bubbleSort(int* arr, int n)
 {
@@ -86,10 +104,109 @@ void selectionSort(int* arr, int n)
     }
 }
 
-// --------------------------------------------------- SELECTION SORT ----------------------------------
-void mergeSort()
+// --------------------------------------------------- MERGE SORT ----------------------------------
+void merge(int arr[], int low, int mid, int high)
 {
+    //Figure out the size of the array
+    int size = high - low + 1;
 
+    //Create temp dynamic array  
+    int* temp = new int[size];
+
+    //Initiate the array
+    for (int i = 0; i < size; i++)
+    {
+        temp[i] = 0;
+    }
+
+    //Devide into two parts (left and right)
+    int left = low;
+    int right = mid + 1;
+    int index = 0;
+
+    //Start merging
+    while (left <= mid && right <= high && index < size)
+    {
+        if (arr[left] <= arr[right])
+        {
+            temp[index] = arr[left];
+            index++;
+            left++;
+        }
+        else
+        {
+            temp[index] = arr[right];
+            index++;
+            right++;
+        }
+    }
+
+    //Check if the left side is empty
+    while (left <= mid && index < size)
+    {
+        temp[index] = arr[left];
+        index++;
+        left++;
+    }
+
+    //Check if the right side is empty
+    while (right <= high  && index < size)
+    {
+        temp[index] = arr[right];
+        index++;
+        right++;
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        arr[low + i] = temp[i];
+    }
+
+    delete[] temp;
+}
+
+void mergeSort(int arr[], int low, int high)
+{
+    if (low < high)
+    {
+        int mid = (low + high) / 2;
+
+        mergeSort(arr, low, mid);
+        mergeSort(arr, mid + 1, high);
+
+        merge(arr, low, mid, high);
+    }
+}
+
+// --------------------------------------------------- QUICK SORT ----------------------------------
+int partition(int arr[], int i, int j)
+{
+    //Choose the first element to be the pivot
+    int pivot = arr[i];
+    int mid = i;
+
+    for (int k = i + 1; k <= j; k++)
+    {
+        if (arr[k] < pivot)
+        {
+            mid++;
+            swap(arr[k], arr[mid]);
+        }
+    }
+
+    swap(arr[i], arr[mid]);
+    return mid;
+}
+
+void quickSort(int arr[], int low, int high)
+{
+    if (low < high)
+    {
+        int pivotIndex = partition(arr, low, high);
+
+        quickSort(arr, low, pivotIndex - 1);
+        quickSort(arr, pivotIndex + 1, high);
+    }
 }
 
 //----------------------------------------------------- MAIN FUNCTION -----------------------------------------------
@@ -99,12 +216,12 @@ int main(int argc, char* argv[])
     ArgumentManager am(argc, argv);
 
     //Get the filename of argument name "input" and "output" and "command"
-    //string input = am.get("input");
-    //string output = am.get("output");
+    string input = am.get("input");
+    string output = am.get("output");
 
     //Test
-    string input = "input.txt";
-    string output = "output1.txt";
+    //string input = "input3.txt";
+    //string output = "output3.txt";
 
     ifstream inFS;
     ofstream outFS;
@@ -139,6 +256,7 @@ int main(int argc, char* argv[])
             inFS >> numArr[i];
         }
 
+
         // ----------------------------------------- BUBBLE SORT -----------------------------------------------
 
         //Create a array for bubble sort
@@ -151,14 +269,14 @@ int main(int argc, char* argv[])
 
         //Start timer
         clock_t t = clock();
-        
-        //Bubble sort 
+
         bubbleSort(bubbleArr, size);
 
         //Stop Timer
         t = clock() - t;
-        double bubbleTime = ((double)t) / CLOCKS_PER_SEC;
-        
+
+        double bubbleTime = double(t) / double(CLOCKS_PER_SEC);
+
         cout << "Bubble Sort: " << bubbleTime * 1000 << " ms" << endl;
 
         // ---------------------------------------- INSERTION SORT ----------------------------------------
@@ -174,7 +292,6 @@ int main(int argc, char* argv[])
         //Start timer
         t = clock();
 
-        //Bubble sort 
         insertionSort(insertionArr, size);
 
         //Stop Timer
@@ -196,7 +313,6 @@ int main(int argc, char* argv[])
         //Start timer
         t = clock();
 
-        //Bubble sort 
         selectionSort(selectionArr, size);
 
         //Stop Timer
@@ -207,18 +323,86 @@ int main(int argc, char* argv[])
 
         // ---------------------------------------- MERGE SORT ----------------------------------------
 
-       
+        //Create a array for insertion sort
+        int* mergeArr = new int[size];
 
-
-        /*for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++)
         {
-            cout << selectionArr[i] << " ";
-        }*/
+            mergeArr[i] = numArr[i];
+        }
 
+        //Start timer
+        t = clock();
 
+        mergeSort(mergeArr, 0, size - 1);
 
+        //Stop Timer
+        t = clock() - t;
+        double mergeTime = (double(t)) / CLOCKS_PER_SEC;
+
+        cout << "Merge Sort: " << mergeTime * 1000 << " ms" << endl;
+
+        // ---------------------------------------- QUICK SORT ----------------------------------------
+
+        //Create a array for insertion sort
+        int* quickArr = new int[size];
+
+        for (int i = 0; i < size; i++)
+        {
+            quickArr[i] = numArr[i];
+        }
+
+        //Start timer
+        t = clock();
+
+        quickSort(quickArr, 0, size - 1);
+
+        //Stop Timer
+        t = clock() - t;
+        double quickTime = (double(t)) / CLOCKS_PER_SEC;
+
+        cout << "Quick Sort: " << quickTime * 1000 << " ms" << endl;
+
+        // --------------------------------------- STRUCT & ARRAY ------------------------------------------------
         
+        //Using struct to store sort type and sort time
+        sortingTime bubble("Bubble Sort", bubbleTime);
+        sortingTime selection("Selection Sort", selectionTime);
+        sortingTime insertion("Insertion Sort", insertionTime);
+        sortingTime merge("Merge Sort", mergeTime);
+        sortingTime quick("Quick Sort", quickTime);
 
+        //Initiate a fixed array
+        sortingTime timeMap[5] = {bubble, selection, insertion, merge, quick};
+        
+        //Sort the array by time using bubble sort (from short to long)
+        bool isSort;
+
+        for (int i = 0; i < 4; i++)
+        {
+            isSort = true;
+            for (int j = 0; j < 4 - i; j++)
+            {
+                if (timeMap[j].time > timeMap[j + 1].time)
+                {
+                    swap(timeMap[j], timeMap[j + 1]);
+                    isSort = false;
+                }
+            }
+
+            if (isSort == true)
+            {
+                break;
+            }
+        }
+
+        //Output to output file
+        for (int i = 0; i < 4; i++)
+        {
+            outFS << timeMap[i].type << ", ";
+        }
+
+        outFS << timeMap[4].type << endl;
 
     }
     catch (runtime_error & e)
